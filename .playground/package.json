@@ -1,0 +1,20 @@
+{
+  "name": "inalia-cli-playground",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.3.0",
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "inalia": "pnpm --dir .. run build && INALIA_ENDPOINT=http://localhost:8000 node ../dist/index.mjs"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^53.0.0",
+    "@slidev/theme-default": "^0.25.0",
+    "markdown-it": "^14.1.0",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "slidev-addon-inalia": "^0.2.9"
+  }
+}

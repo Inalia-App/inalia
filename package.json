@@ -1,0 +1,44 @@
+{
+  "name": "inalia",
+  "version": "0.0.0",
+  "private": false,
+  "description": "The Inalia CLI to use and set up slidev-addon-inalia",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Inalia-App/inalia.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@11.3.0",
+  "bin": {
+    "inalia": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "prepack": "pnpm run build",
+    "release": "bumpp --sign",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "cac": "^6.7.14",
+    "nypm": "^0.4.0",
+    "ofetch": "^1.4.1",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "bumpp": "^11.0.1",
+    "tsdown": "^0.21.7",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.3"
+  }
+}

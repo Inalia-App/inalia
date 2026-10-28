@@ -49,8 +49,10 @@ export function oauthPage(status: keyof typeof pages): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="light">
   <title>${heading} · Inalia</title>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link rel="stylesheet" href="https://fonts.bunny.net/css?family=noto-sans:300,400,500,600,700|noto-serif:400,500,600,700&display=swap">
   <style>
     * { box-sizing: border-box; }
     body {
@@ -60,26 +62,30 @@ export function oauthPage(status: keyof typeof pages): string {
       display: grid;
       place-items: center;
       padding: 32px 24px;
-      background: #09090b;
-      color: #fafafa;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #fff;
+      color: #44403c;
+      font-family: "Noto Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
       text-align: center;
     }
-    main { width: 100%; max-width: 480px; }
-    .logo { width: 64px; height: 64px; margin: 0 auto 20px; }
+    main { width: 100%; max-width: 384px; }
+    .logo { width: 48px; height: 48px; margin: 0 auto 8px; }
     .logo svg { display: block; width: 100%; height: 100%; }
-    .brand { margin: 0 0 32px; color: #c084fc; font-size: 14px; font-weight: 600; letter-spacing: .04em; }
-    h1 { margin: 0 0 14px; font-size: clamp(24px, 5vw, 30px); line-height: 1.2; font-weight: 650; letter-spacing: -.025em; }
-    p { margin: 0; color: #a1a1aa; font-size: 15px; line-height: 1.7; }
-    .hint { margin-top: 28px; padding-top: 24px; border-top: 1px solid #27272a; font-size: 13px; }
+    .brand { margin: 0 0 32px; color: #a855f7; font-size: 14px; line-height: 20px; font-weight: 600; }
+    h1 { margin: 0 0 16px; color: #1c1917; font-family: "Noto Serif", serif; font-size: 24px; line-height: 32px; font-weight: 600; }
+    p { margin: 0; color: #57534e; font-size: 16px; line-height: 24px; }
+    .divider { width: 64px; height: 1px; margin: 32px auto; background: #e7e5e4; }
+    .hint { color: #78716c; font-size: 14px; line-height: 20px; }
   </style>
 </head>
 <body>
   <main aria-labelledby="heading">
     <div class="logo">${LOGO}</div>
-    <p class="brand">Inalia CLI</p>
+    <p class="brand">Inalia</p>
     <h1 id="heading">${heading}</h1>
     <p>${message}</p>
+    <div class="divider" aria-hidden="true"></div>
     <p class="hint">${hint}</p>
   </main>
 </body>

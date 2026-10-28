@@ -13,9 +13,22 @@ describe('OAuth callback pages', () => {
     expect(html).toContain('<html lang="en">')
     expect(html).toContain('name="viewport"')
     expect(html).toContain(`<h1 id="heading">${heading}</h1>`)
-    expect(html).toContain('Inalia CLI')
+    expect(html).toContain('<p class="brand">Inalia</p>')
     expect(html).toContain('terminal')
-    expect(html).not.toMatch(/<script|<link|<img|@import|url\(/)
+    expect(html).not.toMatch(/<script|<img|@import|url\(/)
+  })
+
+  it('matches the app typography and light palette with a short divider', () => {
+    const html = oauthPage('received')
+    expect(html).toContain('name="color-scheme" content="light"')
+    expect(html).toContain('https://fonts.bunny.net/css?family=noto-sans:')
+    expect(html).toContain('font-family: "Noto Sans", sans-serif')
+    expect(html).toContain('font-family: "Noto Serif", serif')
+    expect(html).toContain('background: #fff')
+    expect(html).toContain('background: #e7e5e4')
+    expect(html).toContain('.divider { width: 64px; height: 1px;')
+    expect(html).toContain('<div class="divider" aria-hidden="true"></div>')
+    expect(html).not.toContain('border-top')
   })
 
   it('does not claim sign-in has completed before the token exchange', () => {

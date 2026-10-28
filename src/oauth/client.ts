@@ -6,6 +6,7 @@ import { mkdir, rm, stat } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { dirname } from 'node:path'
 import process from 'node:process'
+import { oauthPage } from './page'
 import { credentialPath, deleteCredentials, normalizeEndpoint, readCredentials, saveCredentials } from './store'
 
 export interface LoginOptions {
@@ -111,27 +112,29 @@ export async function login({ endpoint = 'https://inalia.app', open = true, read
   void callback.catch(() => {})
   const server = createServer((request, response) => {
     response.setHeader('Cache-Control', 'no-store')
-    response.setHeader('Content-Type', 'text/plain; charset=utf-8')
+    response.setHeader('Content-Type', 'text/html; charset=utf-8')
+    response.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'")
+    response.setHeader('X-Content-Type-Options', 'nosniff')
     response.setHeader('Referrer-Policy', 'no-referrer')
     const url = new URL(request.url || '/', 'http://127.0.0.1')
     const receivedState = Buffer.from(url.searchParams.get('state') || '')
     const expectedState = Buffer.from(state)
     if (request.method !== 'GET' || url.pathname !== '/callback'
       || receivedState.length !== expectedState.length || !timingSafeEqual(receivedState, expectedState)) {
-      response.writeHead(400).end('Invalid OAuth callback.')
+      response.writeHead(400).end(oauthPage('invalid'))
       return
     }
     if (url.searchParams.has('error')) {
-      response.writeHead(400).end('Authorization was denied. You can close this tab.')
+      response.writeHead(400).end(oauthPage('denied'))
       settle.reject(new Error('Inalia authorization was denied.'))
       return
     }
     const code = url.searchParams.get('code')
     if (!code) {
-      response.writeHead(400).end('Missing authorization code.')
+      response.writeHead(400).end(oauthPage('missing'))
       return
     }
-    response.end('Authorization received. Return to the terminal; you can close this tab.')
+    response.end(oauthPage('received'))
     settle.resolve(code)
   })
   let timer: ReturnType<typeof setTimeout> | undefined

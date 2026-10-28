@@ -1,6 +1,6 @@
 {
   "name": "inalia",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": false,
   "description": "The Inalia CLI to use and set up slidev-addon-inalia",
   "license": "MIT",

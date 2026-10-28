@@ -14,7 +14,7 @@ beforeEach(() => {
 describe('cLI connection', () => {
   it('uses only the CLI endpoint override', () => {
     vi.stubEnv('VITE_INALIA_ENDPOINT', 'https://ignored.example')
-    expect(cliEndpoint()).toBe('https://inalia.app')
+    expect(cliEndpoint()).toBe('https://api.inalia.app')
     vi.stubEnv('INALIA_ENDPOINT', 'http://localhost:8000')
     expect(cliEndpoint()).toBe('http://localhost:8000')
   })
@@ -22,7 +22,7 @@ describe('cLI connection', () => {
   it('reuses OAuth without opening the browser', async () => {
     vi.mocked(accessToken).mockResolvedValue('oauth-secret')
     expect(await connect('VITE_INALIA_ENDPOINT=https://ignored.example', vi.fn())).toEqual({
-      endpoint: 'https://inalia.app',
+      endpoint: 'https://api.inalia.app',
       token: 'oauth-secret',
       auth: 'oauth',
     })
@@ -33,7 +33,7 @@ describe('cLI connection', () => {
     const onUrl = vi.fn()
     vi.mocked(accessToken).mockRejectedValueOnce(new Error('No session')).mockResolvedValueOnce('new-secret')
     expect((await connect('', onUrl)).auth).toBe('oauth')
-    expect(login).toHaveBeenCalledWith({ endpoint: 'https://inalia.app', onUrl })
+    expect(login).toHaveBeenCalledWith({ endpoint: 'https://api.inalia.app', onUrl })
     expect(accessToken).toHaveBeenCalledTimes(2)
   })
 
@@ -47,7 +47,7 @@ describe('cLI connection', () => {
   it('prefers an existing token over OAuth, with shell precedence over .env', async () => {
     vi.stubEnv('VITE_INALIA_API_KEY', ' shell-secret ')
     const connection = await connect('VITE_INALIA_API_KEY=deck-secret', vi.fn())
-    expect(connection).toEqual({ endpoint: 'https://inalia.app', token: 'shell-secret', auth: 'token' })
+    expect(connection).toEqual({ endpoint: 'https://api.inalia.app', token: 'shell-secret', auth: 'token' })
     expect(accessToken).not.toHaveBeenCalled()
     expect(login).not.toHaveBeenCalled()
   })

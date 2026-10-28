@@ -91,7 +91,7 @@ function openBrowser(url: string): void {
   child.unref()
 }
 
-export async function login({ endpoint = 'https://inalia.app', open = true, readOnly = false, onUrl = console.info }: LoginOptions = {}): Promise<void> {
+export async function login({ endpoint = 'https://api.inalia.app', open = true, readOnly = false, onUrl = console.info }: LoginOptions = {}): Promise<void> {
   endpoint = normalizeEndpoint(endpoint)
   const metadata = await jsonRequest<AuthorizationMetadata>(`${endpoint}/.well-known/oauth-authorization-server`)
   if (metadata.issuer !== endpoint && metadata.issuer !== `${endpoint}/`)
@@ -231,7 +231,7 @@ export async function accessToken(endpoint: string): Promise<string> {
   })
 }
 
-export async function logout(endpoint = 'https://inalia.app'): Promise<void> {
+export async function logout(endpoint = 'https://api.inalia.app'): Promise<void> {
   endpoint = normalizeEndpoint(endpoint)
   try {
     await accessToken(endpoint)

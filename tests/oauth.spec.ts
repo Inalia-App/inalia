@@ -30,6 +30,17 @@ function callbackRequest(url: URL) {
 }
 
 describe('oAuth client', () => {
+  it('defaults to the hosted API origin', async () => {
+    expect(normalizeEndpoint()).toBe('https://api.inalia.app')
+    const fetcher = vi.fn().mockResolvedValue({ ok: false, status: 503 })
+    vi.stubGlobal('fetch', fetcher)
+    await expect(login({ open: false })).rejects.toThrow('HTTP 503')
+    expect(fetcher).toHaveBeenCalledWith(
+      'https://api.inalia.app/.well-known/oauth-authorization-server',
+      expect.any(Object),
+    )
+  })
+
   it('uses the RFC 7636 S256 challenge', () => {
     expect(pkceChallenge('dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk'))
       .toBe('E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM')

@@ -9,7 +9,7 @@ export interface Connection {
 }
 
 export function cliEndpoint(): string {
-  return process.env.INALIA_ENDPOINT?.trim() || 'https://inalia.app'
+  return process.env.INALIA_ENDPOINT?.trim() || 'https://api.inalia.app'
 }
 
 export async function connect(content: string, onUrl: (message: string) => void): Promise<Connection> {
